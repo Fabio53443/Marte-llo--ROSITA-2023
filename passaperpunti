@@ -1,0 +1,40 @@
+import math
+
+points = [[1, 1], [2, 1], [0, 0]]
+
+
+def Distance(v1, v2):
+    return math.sqrt(math.pow(v1[0] - v2[0], 2) + math.pow(v1[1] - v2[1], 2))
+
+def ProdScalare(v1, v2):
+    return v1[0] * v2[0] + v1[1] * v2[1]
+
+def PassaPer(Nodi):
+    position = [0, 0]
+    rotation = 0
+    
+    for nodo in Nodi:
+        turn(-rotation)
+        dy = nodo[1] - position[1]
+        dx = nodo[0] - position[0]
+        display([dx, dy])
+        if dx == 0:
+            if dy == 0:
+                angle = 0
+            else:
+                angle = 90
+        else:
+            angle = math.degrees(math.atan((nodo[1] - position[1])/(nodo[0] - position[0])))
+        
+        posRelativa = [dx, dy]
+        if ProdScalare(position, posRelativa) < 0:
+            turn(angle + 180)
+            rotation = angle + 180
+        else:
+            turn(angle)
+            rotation = angle
+                
+        forward(Distance(nodo, position))
+        position = nodo
+        
+PassaPer(points)
